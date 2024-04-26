@@ -167,6 +167,10 @@ String sendToServer(String cardID) {
   } else {
     Serial.print("Error code: ");
     Serial.println(httpResponseCode);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Server IP error!");
+    cute.play(S_CONFUSED);
   }
 
   http.end();
