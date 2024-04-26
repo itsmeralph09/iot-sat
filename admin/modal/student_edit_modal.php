@@ -128,8 +128,8 @@
             </div> 
 			</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" name="edit" class="btn btn-outline-success" id="updateStudent_<?php echo $student_id; ?>"></i>Update</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" name="edit" class="btn btn-success" id="updateStudent_<?php echo $student_id; ?>"></i>Update</a>
             </div>
             </form>
         </div>

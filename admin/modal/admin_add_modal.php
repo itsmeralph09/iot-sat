@@ -69,7 +69,7 @@
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" name="edit" class="btn btn-success" id="addAdmin"></i>Save</a>
+                <button type="submit" name="edit" class="btn btn-primary" id="addAdmin"></i>Save</a>
 			</form>
             </div>
 
