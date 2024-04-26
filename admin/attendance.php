@@ -49,7 +49,7 @@
                                       <li><a data-action="collapse"><i class="fa-solid fa-minus"></i></a></li>
                                       <li><a data-action="reload"><i class="fa-solid fa-rotate"></i></a></li>
                                       <li><a data-action="expand"><i class="fa-solid fa-expand"></i></a></li>
-                                      <li><a data-action="close"><i class="fa-solid fa-x"></i></a></li>
+                                      <!-- <li><a data-action="close"><i class="fa-solid fa-x"></i></a></li> -->
                                   </ul>
                               </div>
                           </div>
@@ -57,18 +57,18 @@
                               <div class="card-body">
                                   <div class="table-responsive">
                                       <table class="table table-hover display nowrap" id="myTable" width="100%" cellspacing="0">
-                                          <thead class="bg-dark text-white">
-                                              <tr>
-                                                  <th scope="col">#</th>
-                                                  <th scope="col">UID</th>
-                                                  <th scope="col">Name</th>
-                                                  <th scope="col">Class</th>
-                                                  <th scope="col">Type</th>
-                                                  <th scope="col">Date</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                          </tbody>
+                                        <thead class="bg-dark text-white">
+                                            <tr>
+                                                <th scope="col" class="d-none">#</th>
+                                                <th scope="col">UID</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Class</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
                                       </table>
                                   </div>
                               </div>
@@ -90,7 +90,7 @@
     <!-- end scripts -->
 <script>
     $(document).ready(function () {
-        var lastFetchTime = null;
+        var lastFetchId = null;
         var dataTableInitialized = false;
         var dataTable;
 
@@ -101,7 +101,11 @@
                 "searching": true,
                 "info": true,
                 "scrollCollapse": true,
-                "scrollX": true
+                "scrollX": true,
+                "order": [[0, 'desc']], // Reverse order by the first column (assuming it contains the UID or a similar identifier)
+                "columnDefs": [
+                    { "visible": false, "targets": [0] } // Hide the first column (attendance_id)
+                ]
             });
         }
 
@@ -110,58 +114,52 @@
                 url: 'action/fetch_attendance.php',
                 type: 'GET',
                 data: {
-                    last_fetch_time: lastFetchTime
+                    last_fetch_id: lastFetchId
                 },
                 dataType: 'json',
                 success: function (response) {
                     if (response.length > 0) {
-                        lastFetchTime = response[0].date_time;
+                        lastFetchId = response[0].attendance_id;
                         renderTable(response);
                     }
                 },
                 complete: function () {
-                    setTimeout(fetchData, 300); // Fetch data every 2 seconds
+                    setTimeout(fetchData, 300); // Fetch data every 3 seconds
                 }
             });
         }
 
-function renderTable(data) {
-    if (!dataTableInitialized) {
-        initializeDataTable();
-        dataTableInitialized = true;
-    }
+        function renderTable(data) {
+            if (!dataTableInitialized) {
+                initializeDataTable();
+                dataTableInitialized = true;
+            }
 
-    // Get the current row count in the DataTable
-    var rowCount = dataTable.rows().count();
+            // Loop through the data and add rows to the table
+            for (var i = 0; i < data.length; i++) {
+                var row = data[i];
+                var typeBadge = row.type == 1 ? '<span class="badge badge-primary font-weight-bold">IN</span>' : '<span class="badge badge-danger font-weight-bold">OUT</span>';
+                var date = new Date(row.date_time);
+                var formattedDate = date.toLocaleString();
 
-    // Loop through the data and add rows to the table if they are not already present
-    $.each(data, function (index, row) {
-        var typeBadge = row.type == 1 ? '<span class="badge badge-primary font-weight-bold">IN</span>' : '<span class="badge badge-danger font-weight-bold">OUT</span>';
-        var date = new Date(row.date_time);
-        var formattedDate = date.toLocaleString();
+                // Check if the row is already present in the table
+                var existingRow = dataTable.row('#' + row.attendance_id);
+                if (!existingRow.length) {
+                    // Add new row at the top of the table
+                    var newRow = [
+                        row.attendance_id,
+                        row.uid,
+                        row.name,
+                        row.class,
+                        typeBadge,
+                        formattedDate
+                    ];
 
-        // Check if the row is already present in the table
-        var existingRow = dataTable.rows().data().filter(function (value) {
-            return value[1] == row.uid && value[5] == formattedDate; // Assuming the second column contains the UID and the sixth column contains the date
-        });
-
-        if (existingRow.length === 0) {
-            dataTable.row.add([
-                (rowCount + 1), // Increment the row count
-                row.uid,
-                row.name,
-                row.class,
-                typeBadge,
-                formattedDate
-            ]);
-
-            rowCount++; // Increment row count for the next row
+                    // Insert the new row at the top of the table
+                    dataTable.row.add(newRow, 0).draw(false);
+                }
+            }
         }
-    });
-
-    // Redraw the table
-    dataTable.draw(false);
-}
 
         fetchData(); // Start fetching data
     });
