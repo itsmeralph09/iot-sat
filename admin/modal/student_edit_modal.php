@@ -66,7 +66,7 @@
 						<label class="control-label modal-label">Contact No.</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="email" class="form-control" name="contact" value="<?php echo $contact; ?>" placeholder="Input contact number.." required>
+						<input type="number" class="form-control contact-input" name="contact" value="<?php echo $contact; ?>" placeholder="Input contact number.." required>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -74,7 +74,7 @@
 						<label class="control-label modal-label">Guardian's Contact No.</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="email" class="form-control" name="guardian_contact" value="<?php echo $guardian_contact; ?>" placeholder="Input guardian's contact.." required>
+						<input type="number" class="form-control contact-input" name="guardian_contact" value="<?php echo $guardian_contact; ?>" placeholder="Input guardian's contact.." required>
 					</div>
 				</div>
 				<div class="row form-group">

@@ -148,6 +148,26 @@
             $('#myTable').DataTable({
                 scrollX: true
             })
+
+            // Input Element for Contact Number
+            function limitContactInputLength(event) {
+                // Remove non-digit characters
+                var inputValue = event.target.value.replace(/\D/g, '');
+
+                // Limit the length to 11 digits
+                if (inputValue.length > 11) {
+                    inputValue = inputValue.slice(0, 11);
+                }
+
+                // Update the input value
+                event.target.value = inputValue;
+            }
+
+            // Contact Input Validation
+            var contactInputs = document.querySelectorAll('.contact-input');
+            contactInputs.forEach(function(input) {
+                input.addEventListener('input', limitContactInputLength);
+            });
         });
     </script>
     <script>
