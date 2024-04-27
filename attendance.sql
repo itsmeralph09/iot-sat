@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2024 at 02:18 AM
+-- Generation Time: Apr 27, 2024 at 02:38 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -42,7 +42,8 @@ CREATE TABLE `admin_tbl` (
 --
 
 INSERT INTO `admin_tbl` (`admin_id`, `first_name`, `middle_name`, `last_name`, `ext_name`, `email`, `deleted`) VALUES
-(1, 'ADMINIS', '', 'TRAITOR', '', 'admin@pcb.edu.ph', 0);
+(1, 'ADMINIS', '', 'TRAITOR', '', 'admin@pcb.edu.ph', 0),
+(6, 'ADMIN', 'IS', 'TRAITOR', '', 'admin', 0);
 
 -- --------------------------------------------------------
 
@@ -64,12 +65,10 @@ CREATE TABLE `attendance_tbl` (
 --
 
 INSERT INTO `attendance_tbl` (`attendance_id`, `uid`, `student_id`, `type`, `date_time`, `deleted`) VALUES
-(170, '7B86B812', 6, 1, '2024-04-13 20:48:13', 0),
-(171, '7B86B812', 6, 2, '2024-04-13 20:48:17', 0),
-(172, '7B86B812', 6, 1, '2024-04-13 20:48:19', 0),
-(173, '7B86B812', 6, 2, '2024-04-13 20:48:21', 0),
-(174, '62369751', 1, 1, '2024-04-13 20:48:25', 0),
-(175, '62369751', 1, 2, '2024-04-13 20:48:28', 0);
+(233, '7B86B812', 6, 1, '2024-04-27 07:52:39', 0),
+(234, '7B86B812', 6, 2, '2024-04-27 07:52:42', 0),
+(235, '7B86B812', 6, 1, '2024-04-27 07:52:46', 0),
+(236, '7B86B812', 6, 2, '2024-04-27 07:52:49', 0);
 
 -- --------------------------------------------------------
 
@@ -134,8 +133,8 @@ CREATE TABLE `device_tbl` (
 --
 
 INSERT INTO `device_tbl` (`device_id`, `device_code`, `last_active`, `deleted`) VALUES
-(2, 'primaria', '2024-04-13 20:48:43', 0),
-(3, 'exitus', '2024-04-13 20:48:41', 0);
+(2, 'primaria', '2024-04-26 19:37:08', 0),
+(3, 'exitus', '2024-04-26 19:45:06', 0);
 
 -- --------------------------------------------------------
 
@@ -184,8 +183,9 @@ CREATE TABLE `student_tbl` (
 --
 
 INSERT INTO `student_tbl` (`student_id`, `uid`, `first_name`, `middle_name`, `last_name`, `ext_name`, `class_id`, `email`, `contact`, `guardian_contact`, `deleted`) VALUES
-(1, '62369751', 'RALPH', 'DOCUTIN', 'CUSTODIO', '', 4, 'ralphcustodio@pcb.edu.ph', '09454866758', '09684383751', 0),
-(6, '7B86B812', 'ANGELA', '', 'DE LEON', '', 4, 'angeladeleon@pcb.edu.ph', '', '', 0);
+(1, '62369751', 'KAREN', 'USBAL', 'DAGSAAN', '', 1, 'karendagsaan@pcb.edu.ph', '09111111111', '09111111111', 0),
+(6, '7B86B812', 'ANGELA', 'LODI', 'DE LEON', '', 4, 'angeladeleon@pcb.edu.ph', '09333333333', '09333333333', 0),
+(7, '6A2F081', 'KC', '', 'PETERS', '', 1, 'kcpeters@pcb.edu.ph', '09222222222', '09222222222', 0);
 
 -- --------------------------------------------------------
 
@@ -206,9 +206,11 @@ CREATE TABLE `user_tbl` (
 --
 
 INSERT INTO `user_tbl` (`user_id`, `email`, `password`, `usertype`, `deleted`) VALUES
-(1, 'ralphcustodio@pcb.edu.ph', '$2y$10$4QZVLQvd28vReDytUHJhhOqQ6ZF100IvXc.auNW6x50anK3HsyjpS', 2, 0),
+(1, 'karendagsaan@pcb.edu.ph', '$2y$10$Lf3MUJKPBc8joNtdn61MGuODAA1pd9nwNAitbOQoi8c/KMpiMwI6i', 2, 0),
 (2, 'admin@pcb.edu.ph', '$2y$10$A1gr88qyhkLMqj19y5mVqOaNo2Vj6qgSVONAs1A1cxDZcriPszxKS', 1, 0),
-(10, 'angeladeleon@pcb.edu.ph', '$2y$10$7i7omcZkYR2eHtmluHQUZ.ugQgIkISjWQjvo5BKdM5QxsNdpzcFBW', 2, 0);
+(10, 'angeladeleon@pcb.edu.ph', '$2y$10$HuNtCGLLJNxA6hlsqq6EGOdAm5er2SpmEf6cLuQJzy8WfKb4s17A.', 2, 0),
+(11, 'kcpeters@pcb.edu.ph', '$2y$10$ztIule2qWpFAK4XjVSVdouswZc14A/gVlg4pcX.k6g5MKOhey8NtS', 2, 0),
+(13, 'admin', '$2y$10$pJLMjxZels0wBkmn.uhJuuN.lmMcxzU8OCcZn4KELePqyQswb8djS', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -270,13 +272,13 @@ ALTER TABLE `user_tbl`
 -- AUTO_INCREMENT for table `admin_tbl`
 --
 ALTER TABLE `admin_tbl`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `attendance_tbl`
 --
 ALTER TABLE `attendance_tbl`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
 
 --
 -- AUTO_INCREMENT for table `class_tbl`
@@ -306,13 +308,13 @@ ALTER TABLE `program_tbl`
 -- AUTO_INCREMENT for table `student_tbl`
 --
 ALTER TABLE `student_tbl`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
