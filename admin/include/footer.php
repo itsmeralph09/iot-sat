@@ -2,7 +2,7 @@
       <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
         <span class="float-md-left d-block d-md-inline-block">
           2024  &copy; Copyright -
-          <a class="text-bold-800 grey darken-2">IOT - AMS</a>
+          <a class="text-bold-800 grey darken-2">iSAT</a>
         </span>
       </div>
     </footer>
