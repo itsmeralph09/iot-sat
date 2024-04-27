@@ -56,11 +56,11 @@
                           <div class="card-content collapse show">
                               <div class="card-body">
                                   <div class="table-responsive">
-                                      <table class="table table-hover display nowrap" id="myTable" width="100%" cellspacing="0">
+                                      <table class="table table-hover display nowrap table-bordered table-striped" id="myTable" width="100%" cellspacing="0">
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="d-none">#</th>
-                                                <th scope="col">UID</th>
+                                                <th scope="col">Card ID</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Class</th>
                                                 <th scope="col">Type</th>
@@ -138,7 +138,7 @@
             // Loop through the data and add rows to the table
             for (var i = 0; i < data.length; i++) {
                 var row = data[i];
-                var typeBadge = row.type == 1 ? '<span class="badge badge-primary font-weight-bold">IN</span>' : '<span class="badge badge-danger font-weight-bold">OUT</span>';
+                var typeBadge = row.type == 1 ? '<span class="badge badge-primary badge-pill font-weight-bold">IN</span>' : '<span class="badge badge-danger badge-pill font-weight-bold">OUT</span>';
                 var date = new Date(row.date_time);
                 var formattedDate = date.toLocaleString();
 
