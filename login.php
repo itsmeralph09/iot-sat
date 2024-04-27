@@ -10,7 +10,7 @@ redirectToDashboard();
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>AMS - Login</title>
+      <title>iSAT - Login</title>
 
       <link rel="apple-touch-icon" href="./theme-assets/images/ico/apple-icon-120.png">
       <link rel="shortcut icon" type="image/x-icon" href="./theme-assets/images/ico/favicon.ico">
@@ -43,9 +43,9 @@ redirectToDashboard();
             <div class="col-lg-4 offset-lg-1 mx-0 px-0">
                <div id="title-container">
                   <img class="pcb-image" src="./theme-assets/images/pcb.webp" alt="PCB Logo">
-                  <h2>"IOT - AMS"</h2>
-                  <h3>IoT-Based Attendance Monitoring System</h3>
-                  <p>Welcome to PCB IOT-Based Attendance Monitoring System!</p>
+                  <h2>"iSAT"</h2>
+                  <h3>IoT-Based Student Attendance Tracker</h3>
+                  <p>Welcome to PCB IOT-Based Student Attendance Tracker!</p>
                </div>
             </div>
             <!-- FORMS -->
