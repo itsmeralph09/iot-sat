@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2024 at 02:38 AM
+-- Generation Time: May 03, 2024 at 02:58 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -68,7 +68,13 @@ INSERT INTO `attendance_tbl` (`attendance_id`, `uid`, `student_id`, `type`, `dat
 (233, '7B86B812', 6, 1, '2024-04-27 07:52:39', 0),
 (234, '7B86B812', 6, 2, '2024-04-27 07:52:42', 0),
 (235, '7B86B812', 6, 1, '2024-04-27 07:52:46', 0),
-(236, '7B86B812', 6, 2, '2024-04-27 07:52:49', 0);
+(236, '7B86B812', 6, 2, '2024-04-27 07:52:49', 0),
+(237, '62369751', 1, 1, '2024-05-03 20:22:12', 0),
+(238, '7B86B812', 6, 1, '2024-05-03 20:22:20', 0),
+(239, '6A2F081', 7, 1, '2024-05-03 20:23:54', 0),
+(240, '7B86B812', 6, 2, '2024-05-03 20:39:46', 0),
+(241, '62369751', 1, 2, '2024-05-03 20:39:49', 0),
+(242, '6A2F081', 7, 2, '2024-05-03 20:39:53', 0);
 
 -- --------------------------------------------------------
 
@@ -133,8 +139,8 @@ CREATE TABLE `device_tbl` (
 --
 
 INSERT INTO `device_tbl` (`device_id`, `device_code`, `last_active`, `deleted`) VALUES
-(2, 'primaria', '2024-04-26 19:37:08', 0),
-(3, 'exitus', '2024-04-26 19:45:06', 0);
+(2, 'primaria', '2024-05-03 20:36:26', 0),
+(3, 'exitus', '2024-05-03 20:46:37', 0);
 
 -- --------------------------------------------------------
 
@@ -156,7 +162,12 @@ CREATE TABLE `program_tbl` (
 
 INSERT INTO `program_tbl` (`program_id`, `program_code`, `program_name`, `department_id`, `deleted`) VALUES
 (4, 'BSIT', 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY', 31, 0),
-(5, 'BEED', 'BACHELOR IN ELEMENTARY EDUCATION', 32, 0);
+(5, 'BEED', 'BACHELOR IN ELEMENTARY EDUCATION', 32, 0),
+(9, 'BSCS', 'BACHELOR OF SCIENCE IN COMPUTER SCIENCE', 32, 0),
+(10, 'BSIS', 'BACHELOR OF SCIENCE IN INFORMATION SYSTEM', 32, 0),
+(11, 'ACT', 'ASSOCIATE IN COMPUTER TECHNOLOGY', 32, 0),
+(12, 'BCAED', 'BACHELOR IN CULTURE AND ARTS EDUCATION', 31, 0),
+(13, 'BECED', 'BACHELOR IN EARLY CHILDHOOD EDUCATION', 31, 0);
 
 -- --------------------------------------------------------
 
@@ -278,7 +289,7 @@ ALTER TABLE `admin_tbl`
 -- AUTO_INCREMENT for table `attendance_tbl`
 --
 ALTER TABLE `attendance_tbl`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
 -- AUTO_INCREMENT for table `class_tbl`
@@ -302,7 +313,7 @@ ALTER TABLE `device_tbl`
 -- AUTO_INCREMENT for table `program_tbl`
 --
 ALTER TABLE `program_tbl`
-  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `student_tbl`
