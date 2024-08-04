@@ -45,7 +45,7 @@
                               <h4 class="card-title">List of Department</h4>
                             </div>
                             <div class="float-right">
-                              <a href="" class="btn btn-primary shadow-sm mt-1" data-toggle="modal" data-target="#addnew"><i class="fa-light fa-plus"></i></a>
+                              <a href="" class="btn btn-primary shadow-sm mt-1" data-toggle="modal" data-target="#addnew"><i class="fa-solid fa-plus"></i></a>
                             </div>
                               
                               
@@ -85,13 +85,13 @@
                                               <td class="text-center">
                                                 <a href="" class="btn btn-sm btn-success shadow-sm"
                                                   data-toggle="modal" data-target="#edit_<?php echo $department_id; ?>">
-                                                  <i class="fa-light fa-pen-to-square"></i>
+                                                  <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                                 <a href="" class="btn btn-sm btn-danger shadow-sm delete-department-btn" 
                                                    data-department-id="<?php echo $department_id; ?>"
                                                    data-department-code="<?php echo $department_code; ?>"
                                                    data-department-name="<?php echo htmlspecialchars($department_name); ?>">
-                                                   <i class="fa-light fa-trash-xmark"></i>
+                                                   <i class="fa-solid fa-trash"></i>
                                                 </a>
                                               </td>
                                             </tr>
