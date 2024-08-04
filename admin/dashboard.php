@@ -46,13 +46,13 @@
                 <i class="la la-ellipsis-v font-medium-3"></i>
             </a>
             <div class="heading-elements">
-                <i class="fa-duotone fa-torii-gate danger font-large-1 float-right"></i>
+                <i class="fa-solid fa-torii-gate danger font-large-1 float-right"></i>
             </div>
         </div>
         <div class="card-content">
             <div class="card-body">
                 <div class="text-center p-1">
-                    <i class="fa-duotone fa-wifi-slash secondary fa-5x" id="status-icon"></i>
+                    <i class="fa-solid fa-wifi secondary fa-5x" id="status-icon"></i>
                     <p id="device-status" class="mt-1 text-secondary">Device is offline!</p>
                 </div>
             </div>
@@ -67,13 +67,13 @@
                 <i class="la la-ellipsis-v font-medium-3"></i>
             </a>
             <div class="heading-elements">
-                <i class="fa-duotone fa-torii-gate primary font-large-1 float-right"></i>
+                <i class="fa-solid fa-torii-gate primary font-large-1 float-right"></i>
             </div>
         </div>
         <div class="card-content">
             <div class="card-body">
                 <div class="text-center p-1">
-                    <i class="fa-duotone fa-wifi-slash secondary fa-5x" id="status-icon2"></i>
+                    <i class="fa-solid fa-wifi secondary fa-5x" id="status-icon2"></i>
                     <p id="device-status2" class="mt-1 text-secondary">Device is offline!</p>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 <i class="la la-ellipsis-v font-medium-3"></i>
             </a>
             <div class="heading-elements">
-                <i class="fa-duotone fa-clock warning font-large-1 float-right"></i>
+                <i class="fa-solid fa-clock warning font-large-1 float-right"></i>
             </div>
         </div>
         <div class="card-content">
@@ -212,11 +212,11 @@
 
                         // Update the card based on the time difference
                         if (diffInSeconds > 10) {
-                            $('#' + statusIconId).removeClass('fa-wifi '+color).addClass('fa-wifi-slash secondary');
+                            $('#' + statusIconId).removeClass('fa-wifi '+color).addClass('fa-wifi secondary');
                             $('#' + deviceStatusId).removeClass('text-'+color).addClass('text-secondary').text('Device is offline!');
                             $('#' + deviceLastActive).addClass('text-warning').text(formattedDateTime);
                         } else {
-                            $('#' + statusIconId).removeClass('fa-wifi-slash secondary').addClass('fa-wifi '+color);
+                            $('#' + statusIconId).removeClass('fa-wifi secondary').addClass('fa-wifi '+color);
                             $('#' + deviceStatusId).removeClass('text-secondary').addClass('text-'+color).text('Device is online!');
                             $('#' + deviceLastActive).addClass('text-warning').text(formattedDateTime);
                         }
