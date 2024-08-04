@@ -48,7 +48,7 @@
                               <h4 class="card-title">List of Archived Admin</h4>
                             </div>
                             <div class="float-right">
-                              <a href="admin.php" class="btn btn-outline-secondary shadow-sm mt-1"><i class="fa-light fa-arrow-left mr-1"></i>Back</a>
+                              <a href="admin.php" class="btn btn-outline-secondary shadow-sm mt-1"><i class="fa-solid fa-arrow-left mr-1"></i>Back</a>
                             </div>
                                     
                           </div>
@@ -96,7 +96,7 @@
                                                    data-admin-id="<?php echo $admin_id; ?>"
                                                    data-user-id="<?php echo $user_id; ?>"
                                                    data-admin-name="<?php echo htmlspecialchars($name); ?>">
-                                                   <i class="fa-light fa-trash-can-arrow-up"></i>
+                                                   <i class="fa-solid fa-trash-can-arrow-up"></i>
                                                 </a>
                                               </td>
                                             </tr>
