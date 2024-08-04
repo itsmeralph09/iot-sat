@@ -46,8 +46,8 @@
                               <h4 class="card-title">List of Students</h4>
                             </div>
                             <div class="float-right">
-                              <a href="" class="btn btn-primary shadow-sm mt-1" data-toggle="modal" data-target="#addnew"><i class="fa-light fa-plus"></i></a>
-                              <a href="student-archive.php" class="btn btn-outline-secondary shadow-sm mt-1"><i class="fa-light fa-box-archive mr-1"></i>Archive</a>
+                              <a href="" class="btn btn-primary shadow-sm mt-1" data-toggle="modal" data-target="#addnew"><i class="fa-solid fa-plus"></i></a>
+                              <a href="student-archive.php" class="btn btn-outline-secondary shadow-sm mt-1"><i class="fa-solid fa-box-archive mr-1"></i>Archive</a>
                             </div>
                               
                               
@@ -106,13 +106,13 @@
                                               <td class="text-center">
                                                 <a href="" class="btn btn-sm btn-success shadow-sm"
                                                   data-toggle="modal" data-target="#edit_<?php echo $student_id; ?>">
-                                                  <i class="fa-light fa-pen-to-square"></i>
+                                                  <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                                 <a href="" class="btn btn-sm btn-danger shadow-sm delete-student-btn"
                                                    data-student-id="<?php echo $student_id; ?>"
                                                    data-user-id="<?php echo $user_id; ?>"
                                                    data-student-name="<?php echo htmlspecialchars($name); ?>">
-                                                   <i class="fa-light fa-trash-xmark"></i>
+                                                   <i class="fa-solid fa-trash"></i>
                                                 </a>
                                               </td>
                                             </tr>
