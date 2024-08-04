@@ -7,7 +7,7 @@
               <h3 class="brand-text text-danger">iSAT - PCB</h3>
             </a>
           </li>
-          <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="fa-duotone fa-chevrons-left"></i></a></li>
+          <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="fa-solid fa-chevron-left mr-0"></i><i class="fa-solid fa-chevron-left ml-0"></i></a></li>
         </ul>
       </div>
       <div class="main-menu-content">
@@ -15,49 +15,49 @@
 
           <li class="nav-item">
             <a href="dashboard.php">
-              <i class="fa-light fa-gauge"></i>
+              <i class="fa-solid fa-gauge"></i>
               <span class="menu-title" data-i18n="">Dashboard</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="attendance.php">
-              <i class="fa-light fa-file-lines"></i>
+              <i class="fa-solid fa-file-lines"></i>
               <span class="menu-title" data-i18n="">Attendance Record</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="department.php">
-              <i class="fa-light fa-building-columns"></i>
+              <i class="fa-solid fa-building-columns"></i>
               <span class="menu-title" data-i18n="">Department</span>
             </a>
           </li>
 
           <li class=" nav-item">
             <a href="program.php">
-              <i class="fa-light fa-book"></i>
+              <i class="fa-solid fa-book"></i>
               <span class="menu-title" data-i18n="">Program</span>
             </a>
           </li>
 
           <li class=" nav-item">
             <a href="class.php">
-              <i class="fa-light fa-sm fa-chalkboard-user"></i>
+              <i class="fa-solid fa-sm fa-chalkboard-user"></i>
               <span class="menu-title" data-i18n="">Class</span>
             </a>
           </li>
 
           <li class=" nav-item">
             <a href="student.php">
-              <i class="fa-light fa-address-card"></i>
+              <i class="fa-solid fa-address-card"></i>
               <span class="menu-title" data-i18n="">Students</span>
             </a>
           </li>
 
           <li class=" nav-item">
             <a href="admin.php">
-              <i class="fa-light fa-user-tie"></i>
+              <i class="fa-solid fa-user-tie"></i>
               <span class="menu-title" data-i18n="">Admin</span>
             </a>
           </li>

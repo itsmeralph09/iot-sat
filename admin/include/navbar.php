@@ -4,7 +4,7 @@
         <div class="navbar-container content">
           <div class="collapse navbar-collapse show" id="navbar-mobile">
             <ul class="nav navbar-nav mr-auto float-left">
-              <li class="nav-item d-block d-md-none"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="fa-duotone fa-bars"></i></a></li>
+              <li class="nav-item d-block d-md-none"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="fa-solid fa-bars"></i></a></li>
             </ul>
 
             <ul class="nav navbar-nav float-right">
@@ -45,10 +45,10 @@
                       
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a>
-                    <a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a>
+                    <a class="dropdown-item" href="#"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                    <!-- <a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a> -->
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="ft-power"></i> Logout</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                   </div>
                 </div>
               </li>
