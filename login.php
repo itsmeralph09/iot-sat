@@ -37,8 +37,9 @@ redirectToDashboard();
       <!-- display error messages -->
       <?php displaySessionErrorMessage(); ?>
       <!-- CONTAINER -->
-      <div class="container d-flex align-items-center min-vh-100">
+      <div class="container d-flex align-items-center min-vh-100 justify-content-center">
          <div class="row g-0 justify-content-center">
+
             <!-- TITLE -->
             <div class="col-lg-4 offset-lg-1 mx-0 px-0">
                <div id="title-container">
@@ -48,6 +49,7 @@ redirectToDashboard();
                   <p>Welcome to PCB IOT-Based Student Attendance Tracker!</p>
                </div>
             </div>
+
             <!-- FORMS -->
             <div class="col-lg-7 mx-0 px-0">
                <div id="qbox-container" class="">
