@@ -105,6 +105,17 @@
                 "order": [[0, 'desc']], // Reverse order by the first column (assuming it contains the UID or a similar identifier)
                 "columnDefs": [
                     { "visible": false, "targets": [0] } // Hide the first column (attendance_id)
+                ],
+                "dom": 'Bfrtip',
+                "buttons": [
+                    {
+                        extend: 'csvHtml5',
+                        className: 'custom-csv-button'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        className: 'custom-excel-button'
+                    }
                 ]
             });
         }
