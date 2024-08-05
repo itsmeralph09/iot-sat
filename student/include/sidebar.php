@@ -15,14 +15,14 @@
 
           <li class="nav-item">
             <a href="dashboard.php">
-              <i class="fa-light fa-gauge"></i>
+              <i class="fa-solid fa-gauge"></i>
               <span class="menu-title" data-i18n="">Dashboard</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="attendance.php">
-              <i class="fa-light fa-file-lines"></i>
+              <i class="fa-solid fa-file-lines"></i>
               <span class="menu-title" data-i18n="">Attendance Record</span>
             </a>
           </li>
