@@ -1,5 +1,36 @@
 <?php
 
+// Replace these with your own values
+$apiKey = '2dadc4525e1fa0d424ef5bcf249a9b0c'; // Replace with your actual API key
+$apiUrl = 'https://semaphore.co/api/v4/messages';
+
+// Function to send SMS
+function sendSMS($apiKey, $apiUrl, $contact, $message) {
+    // Initialize cURL session
+    $ch = curl_init();
+
+    // Set cURL options
+    $parameters = [
+        'apikey' => $apiKey,
+        'number' => $contact,
+        'message' => $message,
+        'sendername' => 'SEMAPHORE'
+    ];
+
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $apiUrl,
+        CURLOPT_POST => 1,
+        CURLOPT_POSTFIELDS => http_build_query($parameters),
+        CURLOPT_RETURNTRANSFER => true,
+    ]);
+
+    // Execute cURL request
+    $output = curl_exec($ch);
+    curl_close($ch);
+    
+    return $output;
+}
+
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the 'card_id' parameter is set
@@ -14,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require '../db/dbconn.php';
 
         // Check if the RFID card ID exists in the student_tbl table
-        $checkQuery = "SELECT student_id, first_name, last_name FROM student_tbl WHERE uid = '$sanitizedCardID'";
+        $checkQuery = "SELECT student_id, first_name, last_name, contact, guardian_contact FROM student_tbl WHERE uid = '$sanitizedCardID'";
         $checkResult = $conn->query($checkQuery);
 
         if ($checkResult->num_rows > 0) {
@@ -23,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $studentID = $row["student_id"];
             $firstName = $row["first_name"];
             $lastName = $row["last_name"];
+            $studentContact = $row["contact"];
+            $parentContact = $row["guardian_contact"];
 
             // Check if the student already has an entry for today
             $latestEntryQuery = "SELECT type FROM attendance_tbl WHERE student_id = '$studentID' AND DATE(date_time) = CURDATE() ORDER BY date_time DESC LIMIT 1";
@@ -33,18 +66,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $latestType = $latestEntry["type"];
 
                 if ($latestType == 2) {
-                    // Student already checked IN today, cannot check IN again
+                    // Student already checked OUT today, cannot check OUT again
                     $response = array(
                         "status" => "error",
-                        "message" => "Student need to check IN first.",
+                        "message" => "Student needs to check IN first.",
                         "lcdMessage" => "ALREADY OUT!"
                     );
                     echo json_encode($response);
                 } else {
-                    // Insert the RFID card ID and student ID into the attendance_tbl table as IN
+                    // Insert the RFID card ID and student ID into the attendance_tbl table as OUT
                     $insertQuery = "INSERT INTO attendance_tbl (uid, student_id, type, date_time) VALUES ('$sanitizedCardID', $studentID, 2, NOW())";
                     if ($conn->query($insertQuery) === TRUE) {
-                        // Successfully inserted IN record into the attendance_tbl table
+                        // Successfully inserted OUT record into the attendance_tbl table
+                        $message = "Hi $firstName $lastName. You have successfully checked OUT from school.";
+                        sendSMS($apiKey, $apiUrl, $studentContact, $message);
+                        sendSMS($apiKey, $apiUrl, $parentContact, $message);
+
                         $response = array(
                             "status" => "success",
                             "message" => "RFID card ID belongs to $firstName $lastName. OUT attendance recorded successfully.",
@@ -54,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         );
                         echo json_encode($response);
                     } else {
-                        // Error inserting IN record into the attendance_tbl table
+                        // Error inserting OUT record into the attendance_tbl table
                         $response = array(
                             "status" => "error",
                             "message" => "Error recording OUT attendance: " . $conn->error,
@@ -67,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // No entry found for today, student can't check OUT
                 $response = array(
                     "status" => "error",
-                    "message" => "Student need to check IN first.",
+                    "message" => "Student needs to check IN first.",
                     "lcdMessage" => "CHECK IN FIRST!"
                 );
                 echo json_encode($response);
