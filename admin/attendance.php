@@ -110,11 +110,13 @@
                 "buttons": [
                     {
                         extend: 'csvHtml5',
-                        className: 'custom-csv-button'
+                        className: 'custom-csv-button',
+                        filename: 'Attendance_CSV'
                     },
                     {
                         extend: 'excelHtml5',
-                        className: 'custom-excel-button'
+                        className: 'custom-excel-button',
+                        filename: 'Attendance_Excel'
                     }
                 ]
             });
