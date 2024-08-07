@@ -28,6 +28,13 @@
           </li>
 
           <li class="nav-item">
+            <a href="academic.php">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span class="menu-title" data-i18n="">Academic Year</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="department.php">
               <i class="fa-solid fa-building-columns"></i>
               <span class="menu-title" data-i18n="">Department</span>
