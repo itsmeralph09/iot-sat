@@ -283,7 +283,7 @@
             var acadSem = decodeURIComponent(deleteBtn.data('acad-semester'));
 
             Swal.fire({
-                title: 'Delete Academic Year',
+                title: 'Delete Academic Year & Semester',
                 html: "You are about to delete the following academic year & semester:<br>" +
                       "<strong>Academic Year:</strong> " + acadYear + "<br>" +
                       "<strong>Semester:</strong> " + acadSem + "<br>",
@@ -343,7 +343,7 @@
             var acadSem = decodeURIComponent(deleteBtn.data('acad-semester'));
 
             Swal.fire({
-                title: 'Set as Default Academic Year',
+                title: 'Set as Default Academic Year & Semester',
                 html: "You are about to set as default the following academic year & semester:<br>" +
                       "<strong>Academic Year:</strong> " + acadYear + "<br>" +
                       "<strong>Semester:</strong> " + acadSem + "<br>",
