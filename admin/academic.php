@@ -144,7 +144,7 @@
                   </div>
               </div>
           </section>
-          <?php // include './modal/department_add_modal.php'; ?>  
+          <?php include './modal/academic_add_modal.php'; ?>  
         </div>
       </div>
     </div>
@@ -170,6 +170,16 @@
 
 <script>
     $(document).ready(function() {
+        $('#year_start').on('input', function() {
+            var yearStart = $(this).val();
+            if(yearStart >= 2009 && yearStart <= 9999){
+                var yearEnd = parseInt(yearStart) + 1;
+                $('#year_end').val(yearEnd);
+            } else {
+                $('#year_end').val('');
+            }
+        });
+
         // Function to show SweetAlert2 warning message
         const showWarningMessage = (message) => {
             Swal.fire({
@@ -179,27 +189,33 @@
             });
         };
 
-        // Function to check if department code or name already exists
-        const checkExistingDepartment = (formData) => {
+        function validateYearField(field, minYear, maxYear) {
+            var year = $(field).val();
+            if (year < minYear || year > maxYear) {
+                $(field).addClass('input-error');
+                return false;
+            } else {
+                $(field).removeClass('input-error');
+                return true;
+            }
+        }
+
+        // Function to check if academic year already exists
+        const checkExistingAcademic = (formData) => {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: 'action/check_department.php', // URL to check the database
+                    url: 'action/check_academic.php', // URL to check the database
                     type: 'POST',
                     data: formData.serialize(), // Serialize form data
                     success: function(response) {
                         if (response.exists) {
                             // Highlight the corresponding input fields with red border
-                            if (response.exists.department_code) {
-                                showWarningMessage('Department code already exists.');
-                                formData.find('input[name="department_code"]').addClass('input-error');
-                            }
-                            if (response.exists.department_name) {
-                                showWarningMessage('Department name already exists.');
-                                formData.find('textarea[name="department_name"]').addClass('input-error');
-                            }
-                            reject(); // Reject the promise if department already exists
+                            showWarningMessage('Academic Year already exists.');
+                            formData.find('input[name="year_start"]').addClass('input-error');
+                            formData.find('input[name="year_end"]').addClass('input-error');
+                            reject(); // Reject the promise if academic year already exists
                         } else {
-                            resolve(); // Resolve the promise if department doesn't exist
+                            resolve(); // Resolve the promise if academic year doesn't exist
                         }
                     },
                     error: function(xhr, status, error) {
@@ -210,7 +226,7 @@
             });
         };
 
-        $('#addDepartment').on('click', function(e) {
+        $('#addAcademic').on('click', function(e) {
             e.preventDefault(); // Prevent default form submission
 
             var formData = $('#addnew form'); // Select the form element
@@ -226,16 +242,31 @@
                     fieldsAreValid = false; // Set to false if any required field is empty
                     showWarningMessage('Please fill-up the required fields.');
                     $(this).addClass('input-error'); // Add red border to missing field
+                    return;
                 } else {
                     $(this).removeClass('input-error'); // Remove red border if field is filled
                 }
             });
 
+            var minYear = 2009;
+            var maxYear = 9999;
+
+            if (!validateYearField('#year_start', minYear, maxYear)) {
+                showWarningMessage('Please enter a valid 4-digit year for Year Start.');
+                fieldsAreValid = false;
+            }
+
+            if (!validateYearField('#year_end', minYear, maxYear)) {
+                showWarningMessage('Please enter a valid 4-digit year for Year End.');
+                fieldsAreValid = false;
+            }
+
+
             if (fieldsAreValid) {
-                checkExistingDepartment(formData).then(() => {
+                checkExistingAcademic(formData).then(() => {
                     // If department doesn't exist, proceed with form submission
                     $.ajax({
-                        url: 'action/add_department.php', // URL to submit the form data
+                        url: 'action/add_academic.php', // URL to submit the form data
                         type: 'POST',
                         data: formData.serialize(), // Serialize form data
                         success: function(response) {
@@ -243,7 +274,7 @@
                             console.log(response); // Output response to console (for debugging)
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Department added successfully',
+                                title: 'Academic Year added successfully',
                                 showConfirmButton: true, // Show OK button
                                 confirmButtonText: 'OK'
                             }).then(() => {
@@ -255,7 +286,7 @@
                             console.error(xhr.responseText); // Output error response to console (for debugging)
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Failed to add department',
+                                title: 'Failed to add academic year',
                                 text: 'Please try again later.',
                                 showConfirmButton: true, // Show OK button
                                 confirmButtonText: 'OK'
