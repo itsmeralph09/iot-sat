@@ -38,83 +38,114 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve the RFID card ID from the POST data
         $cardID = $_POST["card_id"];
 
-        // Sanitize the input to prevent SQL injection (assuming you're using a database)
+        // Sanitize the input to prevent SQL injection
         $sanitizedCardID = filter_var($cardID, FILTER_SANITIZE_STRING);
 
-        // Connect to the database (replace with your actual database credentials)
+        // Connect to the database
         require '../db/dbconn.php';
 
-        // Check if the RFID card ID exists in the student_tbl table
-        $checkQuery = "SELECT student_id, first_name, last_name, contact, guardian_contact FROM student_tbl WHERE uid = '$sanitizedCardID'";
-        $checkResult = $conn->query($checkQuery);
+        // Fetch default academic year and semester
+        $acadQuery = "SELECT acad_id, CONCAT(year_start, ' - ', year_end, ' (', 
+                        CASE semester
+                            WHEN 1 THEN '1st Sem'
+                            WHEN 2 THEN '2nd Sem'
+                            WHEN 3 THEN 'Mid Year'
+                            ELSE 'Unknown Sem'
+                        END, ')') AS acadyearsem 
+                      FROM acad_yr_tbl 
+                      WHERE is_default = 1 LIMIT 1";
+        $acadResult = $conn->query($acadQuery);
 
-        if ($checkResult->num_rows > 0) {
-            // RFID card ID exists in the student_tbl table
-            $row = $checkResult->fetch_assoc();
-            $studentID = $row["student_id"];
-            $firstName = $row["first_name"];
-            $lastName = $row["last_name"];
-            $studentContact = $row["contact"];
-            $parentContact = $row["guardian_contact"];
+        if ($acadResult->num_rows > 0) {
+            $acadRow = $acadResult->fetch_assoc();
+            $acadID = $acadRow["acad_id"];
 
-            // Check if the student already has an entry for today
-            $latestEntryQuery = "SELECT type FROM attendance_tbl WHERE student_id = '$studentID' AND DATE(date_time) = CURDATE() ORDER BY date_time DESC LIMIT 1";
-            $latestEntryResult = $conn->query($latestEntryQuery);
+            // Check if the RFID card ID exists in the student_tbl table
+            $checkQuery = "SELECT student_id, first_name, last_name, contact, guardian_contact 
+                           FROM student_tbl 
+                           WHERE uid = '$sanitizedCardID'";
+            $checkResult = $conn->query($checkQuery);
 
-            if ($latestEntryResult->num_rows > 0) {
-                $latestEntry = $latestEntryResult->fetch_assoc();
-                $latestType = $latestEntry["type"];
+            if ($checkResult->num_rows > 0) {
+                // RFID card ID exists in the student_tbl table
+                $row = $checkResult->fetch_assoc();
+                $studentID = $row["student_id"];
+                $firstName = $row["first_name"];
+                $lastName = $row["last_name"];
+                $studentContact = $row["contact"];
+                $parentContact = $row["guardian_contact"];
 
-                if ($latestType == 2) {
-                    // Student already checked OUT today, cannot check OUT again
-                    $response = array(
-                        "status" => "error",
-                        "message" => "Student needs to check IN first.",
-                        "lcdMessage" => "ALREADY OUT!"
-                    );
-                    echo json_encode($response);
-                } else {
-                    // Insert the RFID card ID and student ID into the attendance_tbl table as OUT
-                    $insertQuery = "INSERT INTO attendance_tbl (uid, student_id, type, date_time) VALUES ('$sanitizedCardID', $studentID, 2, NOW())";
-                    if ($conn->query($insertQuery) === TRUE) {
-                        // Successfully inserted OUT record into the attendance_tbl table
-                        $message = "Hi $firstName $lastName. You have successfully checked OUT from school.";
-                        sendSMS($apiKey, $apiUrl, $studentContact, $message);
-                        sendSMS($apiKey, $apiUrl, $parentContact, $message);
+                // Check if the student already has an entry for today
+                $latestEntryQuery = "SELECT type FROM attendance_tbl 
+                                     WHERE student_id = '$studentID' 
+                                     AND DATE(date_time) = CURDATE() 
+                                     ORDER BY date_time DESC LIMIT 1";
+                $latestEntryResult = $conn->query($latestEntryQuery);
 
+                if ($latestEntryResult->num_rows > 0) {
+                    $latestEntry = $latestEntryResult->fetch_assoc();
+                    $latestType = $latestEntry["type"];
+
+                    if ($latestType == 2) {
+                        // Student already checked OUT today, cannot check OUT again
                         $response = array(
-                            "status" => "success",
-                            "message" => "RFID card ID belongs to $firstName $lastName. OUT attendance recorded successfully.",
-                            "lcdMessage" => "RECORDED!",
-                            "firstName" => $firstName,
-                            "lastName" => $lastName
+                            "status" => "error",
+                            "message" => "Student needs to check IN first.",
+                            "lcdMessage" => "ALREADY OUT!"
                         );
                         echo json_encode($response);
                     } else {
-                        // Error inserting OUT record into the attendance_tbl table
-                        $response = array(
-                            "status" => "error",
-                            "message" => "Error recording OUT attendance: " . $conn->error,
-                            "lcdMessage" => "SQL ERROR!"
-                        );
-                        echo json_encode($response);
+                        // Insert the RFID card ID and student ID into the attendance_tbl table as OUT
+                        $insertQuery = "INSERT INTO attendance_tbl (uid, student_id, acad_id, type, date_time) 
+                                        VALUES ('$sanitizedCardID', $studentID, $acadID, 2, NOW())";
+                        if ($conn->query($insertQuery) === TRUE) {
+                            // Successfully inserted OUT record into the attendance_tbl table
+                            $message = "Hi $firstName $lastName. You have successfully checked OUT from school.";
+                            sendSMS($apiKey, $apiUrl, $studentContact, $message);
+                            sendSMS($apiKey, $apiUrl, $parentContact, $message);
+
+                            $response = array(
+                                "status" => "success",
+                                "message" => "RFID card ID belongs to $firstName $lastName. OUT attendance recorded successfully.",
+                                "lcdMessage" => "RECORDED!",
+                                "firstName" => $firstName,
+                                "lastName" => $lastName
+                            );
+                            echo json_encode($response);
+                        } else {
+                            // Error inserting OUT record into the attendance_tbl table
+                            $response = array(
+                                "status" => "error",
+                                "message" => "Error recording OUT attendance: " . $conn->error,
+                                "lcdMessage" => "SQL ERROR!"
+                            );
+                            echo json_encode($response);
+                        }
                     }
+                } else {
+                    // No entry found for today, student can't check OUT
+                    $response = array(
+                        "status" => "error",
+                        "message" => "Student needs to check IN first.",
+                        "lcdMessage" => "CHECK IN FIRST!"
+                    );
+                    echo json_encode($response);
                 }
             } else {
-                // No entry found for today, student can't check OUT
+                // RFID card ID does not exist in the student_tbl table
                 $response = array(
                     "status" => "error",
-                    "message" => "Student needs to check IN first.",
-                    "lcdMessage" => "CHECK IN FIRST!"
+                    "message" => "RFID card ID does not exist in the student_tbl table",
+                    "lcdMessage" => "UNKNOWN CARD!"
                 );
                 echo json_encode($response);
             }
         } else {
-            // RFID card ID does not exist in the student_tbl table
+            // No default academic year and semester found
             $response = array(
                 "status" => "error",
-                "message" => "RFID card ID does not exist in the student_tbl table",
-                "lcdMessage" => "UNKNOWN CARD!"
+                "message" => "Default academic year and semester not found",
+                "lcdMessage" => "ACAD ERROR!"
             );
             echo json_encode($response);
         }
