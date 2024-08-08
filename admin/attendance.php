@@ -60,6 +60,7 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="d-none">#</th>
+                                                <th scope="col">Acad Year & Sem</th>
                                                 <th scope="col">Card ID</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Class</th>
@@ -88,95 +89,96 @@
     <!-- include scripts.php -->
     <?php include './include/scripts.php'; ?>
     <!-- end scripts -->
-<script>
-    $(document).ready(function () {
-        var lastFetchId = null;
-        var dataTableInitialized = false;
-        var dataTable;
+    <script>
+        $(document).ready(function () {
+            var lastFetchId = null;
+            var dataTableInitialized = false;
+            var dataTable;
 
-        function initializeDataTable() {
-            dataTable = $('#myTable').DataTable({
-                "paging": true,
-                "ordering": true,
-                "searching": true,
-                "info": true,
-                "scrollCollapse": true,
-                "scrollX": true,
-                "order": [[0, 'desc']], // Reverse order by the first column (assuming it contains the UID or a similar identifier)
-                "columnDefs": [
-                    { "visible": false, "targets": [0] } // Hide the first column (attendance_id)
-                ],
-                "dom": 'Bfrtip',
-                "buttons": [
-                    {
-                        extend: 'csvHtml5',
-                        className: 'custom-csv-button',
-                        filename: 'Attendance_CSV'
+            function initializeDataTable() {
+                dataTable = $('#myTable').DataTable({
+                    "paging": true,
+                    "ordering": true,
+                    "searching": true,
+                    "info": true,
+                    "scrollCollapse": true,
+                    "scrollX": true,
+                    "order": [[1, 'desc']], // Reverse order by the second column (assuming it contains the UID or a similar identifier)
+                    "columnDefs": [
+                        { "visible": false, "targets": [0] } // Hide the first column (attendance_id)
+                    ],
+                    "dom": 'Bfrtip',
+                    "buttons": [
+                        {
+                            extend: 'csvHtml5',
+                            className: 'custom-csv-button',
+                            filename: 'Attendance_CSV'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            className: 'custom-excel-button',
+                            filename: 'Attendance_Excel'
+                        }
+                    ]
+                });
+            }
+
+            function fetchData() {
+                $.ajax({
+                    url: 'action/fetch_attendance.php',
+                    type: 'GET',
+                    data: {
+                        last_fetch_id: lastFetchId
                     },
-                    {
-                        extend: 'excelHtml5',
-                        className: 'custom-excel-button',
-                        filename: 'Attendance_Excel'
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.length > 0) {
+                            lastFetchId = response[0].attendance_id;
+                            renderTable(response);
+                        }
+                    },
+                    complete: function () {
+                        setTimeout(fetchData, 3000); // Fetch data every 3 seconds
                     }
-                ]
-            });
-        }
-
-        function fetchData() {
-            $.ajax({
-                url: 'action/fetch_attendance.php',
-                type: 'GET',
-                data: {
-                    last_fetch_id: lastFetchId
-                },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.length > 0) {
-                        lastFetchId = response[0].attendance_id;
-                        renderTable(response);
-                    }
-                },
-                complete: function () {
-                    setTimeout(fetchData, 300); // Fetch data every 3 seconds
-                }
-            });
-        }
-
-        function renderTable(data) {
-            if (!dataTableInitialized) {
-                initializeDataTable();
-                dataTableInitialized = true;
+                });
             }
 
-            // Loop through the data and add rows to the table
-            for (var i = 0; i < data.length; i++) {
-                var row = data[i];
-                var typeBadge = row.type == 1 ? '<span class="badge badge-primary badge-pill font-weight-bold">IN</span>' : '<span class="badge badge-danger badge-pill font-weight-bold">OUT</span>';
-                var date = new Date(row.date_time);
-                var formattedDate = date.toLocaleString();
+            function renderTable(data) {
+                if (!dataTableInitialized) {
+                    initializeDataTable();
+                    dataTableInitialized = true;
+                }
 
-                // Check if the row is already present in the table
-                var existingRow = dataTable.row('#' + row.attendance_id);
-                if (!existingRow.length) {
-                    // Add new row at the top of the table
-                    var newRow = [
-                        row.attendance_id,
-                        row.uid,
-                        row.name,
-                        row.class,
-                        typeBadge,
-                        formattedDate
-                    ];
+                // Loop through the data and add rows to the table
+                for (var i = 0; i < data.length; i++) {
+                    var row = data[i];
+                    var typeBadge = row.type == 1 ? '<span class="badge badge-primary badge-pill font-weight-bold">IN</span>' : '<span class="badge badge-danger badge-pill font-weight-bold">OUT</span>';
+                    var date = new Date(row.date_time);
+                    var formattedDate = date.toLocaleString();
 
-                    // Insert the new row at the top of the table
-                    dataTable.row.add(newRow, 0).draw(false);
+                    // Check if the row is already present in the table
+                    var existingRow = dataTable.row('#' + row.attendance_id);
+                    if (!existingRow.length) {
+                        // Add new row at the top of the table
+                        var newRow = [
+                            row.attendance_id,
+                            row.acadyearsem, // New column for Acad Year & Sem
+                            row.uid,
+                            row.name,
+                            row.class,
+                            typeBadge,
+                            formattedDate
+                        ];
+
+                        // Insert the new row at the top of the table
+                        dataTable.row.add(newRow).draw(false);
+                    }
                 }
             }
-        }
 
-        fetchData(); // Start fetching data
-    });
-</script>
+            fetchData(); // Start fetching data
+        });
+    </script>
 
   </body>
 </html>
