@@ -116,7 +116,7 @@
         <div class="col-md-6 col-sm-12">
             <div class="card pull-up">
                 <div class="card-header">
-                    <h4 class="card-title">Attendance Overview</h4>
+                    <h4 class="card-title">Attendance Overview (Current Academic Year)</h4>
                     <a class="heading-elements-toggle"><i class="fa-solid fa-ellipsis-vertical font-medium-3"></i></a>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -141,7 +141,7 @@
         <div class="col-md-6 col-sm-12">
             <div class="card pull-up">
                 <div class="card-header">
-                    <h4 class="card-title">Chart 2</h4>
+                    <h4 class="card-title">Attendance Per Program (Current Academic Year)</h4>
                     <a class="heading-elements-toggle"><i class="fa-solid fa-ellipsis-vertical font-medium-3"></i></a>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
@@ -155,7 +155,7 @@
                 <div class="card-content collapse show">
                     <div class="card-body">
                         <div class="height-300">
-                            <canvas id="simple-doughnut-chart"></canvas>
+                            <canvas id="simple-donut-chart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -373,6 +373,102 @@
             });
         });
     </script>
+
+    <script>
+    $(document).ready(function() {
+        // Function to format numbers (if needed)
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            number = (number + '').replace(',', '').replace(' ', '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function(n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+
+        // AJAX request to fetch data from PHP script
+        $.ajax({
+            url: 'action/fetch_attendance_per_program.php', // Replace with the actual path to your PHP script
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Extracting labels and data from the response
+                var labels = data.map(function(item) {
+                    return item.program_code;
+                });
+                var attendanceData = data.map(function(item) {
+                    return item.total_attendance;
+                });
+
+                // Define an array of colors for each section of the donut
+                var donutColors = [
+                    "rgba(78, 115, 223, 1)",
+                    "rgba(54, 185, 204, 1)",
+                    "rgba(28, 200, 138, 1)",
+                    "rgba(246, 194, 62, 1)",
+                    "rgba(231, 74, 59, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(133, 135, 150, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(52, 58, 64, 1)"
+                ];
+
+                // Donut Chart Example
+                var ctx = document.getElementById("simple-donut-chart").getContext('2d');
+                var myDonutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: attendanceData,
+                            backgroundColor: donutColors,
+                            hoverBackgroundColor: donutColors,
+                            hoverBorderColor: "rgba(234, 236, 244, 1)"
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        var datasetLabel = context.dataset.label || '';
+                                        return datasetLabel + ': ' + number_format(context.raw);
+                                    }
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            }
+                        },
+                        cutout: '50%', // Adjust the thickness of the donut
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText); 
+                // Handle the error
+            }
+        });
+    });
+</script>
 
   </body>
 </html>

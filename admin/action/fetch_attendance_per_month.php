@@ -3,7 +3,12 @@
 require '../../db/dbconn.php';
 
 // Get the current year
-$currentYear = date("Y");
+// $currentYear = date("Y");
+
+// Fetch the default academic year
+$query = "SELECT acad_id FROM acad_yr_tbl WHERE is_default = 1 AND deleted = 0";
+$result = $conn->query($query);
+$defaultAcadYear = $result->fetch_assoc()['acad_id'];
 
 // Query to fetch attendance count per month for the current year
 $query = "
@@ -11,7 +16,7 @@ $query = "
         MONTH(date_time) AS month, 
         COUNT(*) AS total_attendance
     FROM attendance_tbl
-    WHERE YEAR(date_time) = $currentYear
+    WHERE acad_id = $defaultAcadYear
     GROUP BY MONTH(date_time)
     ORDER BY MONTH(date_time)
 ";
