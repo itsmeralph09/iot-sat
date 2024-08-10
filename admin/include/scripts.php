@@ -3,7 +3,7 @@
     <!-- BEGIN VENDOR JS-->
 
     <!-- BEGIN PAGE VENDOR JS-->
-    <!-- <script src="../theme-assets/vendors/js/charts/chart.min.js" type="text/javascript"></script> -->
+    <script src="../theme-assets/vendors/js/charts/chart.min.js" type="text/javascript"></script>
     <!-- END PAGE VENDOR JS-->
 
     <!-- BEGIN CHAMELEON  JS-->
