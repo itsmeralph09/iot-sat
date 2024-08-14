@@ -13,7 +13,7 @@ function sendSMS($apiKey, $apiUrl, $contact, $message) {
         'apikey' => $apiKey,
         'number' => $contact,
         'message' => $message,
-        'sendername' => 'SEMAPHORE'
+        'sendername' => 'PCBsat'
     ];
 
     curl_setopt_array($ch, [
